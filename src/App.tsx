@@ -1,12 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ThreeScene } from './components/ThreeScene';
 import { EnhancedControlPanel } from './components/EnhancedControlPanel';
 import { HandIndicator } from './components/HandIndicator';
 import { PerformanceMonitor } from './components/PerformanceMonitor';
 import { useHandTracking } from './hooks/useHandTracking';
+import { useVideoRecorder } from './hooks/useVideoRecorder';
 
 function App() {
-  const { handData } = useHandTracking();
+  const { handData, videoRef } = useHandTracking();
+  const { startAutoRecording, stopRecording } = useVideoRecorder();
+  const hasStartedRecording = useRef(false);
+
+  // Auto-record 30s session on first hand detection
+  useEffect(() => {
+    const isHandDetected = handData.leftHand.isDetected || handData.rightHand.isDetected;
+    if (isHandDetected && !hasStartedRecording.current) {
+      if (videoRef.current?.srcObject) {
+        startAutoRecording(videoRef.current);
+        hasStartedRecording.current = true;
+      }
+    }
+  }, [handData.leftHand.isDetected, handData.rightHand.isDetected, startAutoRecording, videoRef]);
+
+  // Clean up if component unmounts mid-recording
+  useEffect(() => {
+    return () => stopRecording();
+  }, [stopRecording]);
   const [selectedTemplate, setSelectedTemplate] = useState('sphere');
   const [particleColor, setParticleColor] = useState('#ffffff');
   const [bloomEnabled, setBloomEnabled] = useState(true);

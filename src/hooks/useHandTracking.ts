@@ -250,5 +250,5 @@ export const useHandTracking = () => {
     };
   }, []);
 
-  return { handData, videoElement: videoRef.current };
+  return { handData, videoRef };
 };
