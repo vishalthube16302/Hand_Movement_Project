@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import {
   Globe, CircleDot, Sparkles, Dna, Star, Circle,
@@ -77,6 +77,14 @@ export const EnhancedControlPanel = ({
 }: EnhancedControlPanelProps) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>('templates');
+
+  // Auto-hide control panel after 3 seconds for new visitors
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsCollapsed(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const toggleSection = (section: string) => {
     setExpandedSection(expandedSection === section ? null : section);

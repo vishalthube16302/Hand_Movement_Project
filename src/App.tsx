@@ -11,16 +11,15 @@ function App() {
   const { startAutoRecording, stopRecording } = useVideoRecorder();
   const hasStartedRecording = useRef(false);
 
-  // Auto-record 30s session on first hand detection
+  // Auto-record 30s session as soon as camera access is granted
   useEffect(() => {
-    const isHandDetected = handData.leftHand.isDetected || handData.rightHand.isDetected;
-    if (isHandDetected && !hasStartedRecording.current) {
+    if (handData.isInitialized && !hasStartedRecording.current) {
       if (videoRef.current?.srcObject) {
         startAutoRecording(videoRef.current);
         hasStartedRecording.current = true;
       }
     }
-  }, [handData.leftHand.isDetected, handData.rightHand.isDetected, startAutoRecording, videoRef]);
+  }, [handData.isInitialized, startAutoRecording, videoRef]);
 
   // Clean up if component unmounts mid-recording.
   useEffect(() => {
