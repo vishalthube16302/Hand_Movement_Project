@@ -22,7 +22,7 @@ function App() {
     }
   }, [handData.leftHand.isDetected, handData.rightHand.isDetected, startAutoRecording, videoRef]);
 
-  // Clean up if component unmounts mid-recording
+  // Clean up if component unmounts mid-recording.
   useEffect(() => {
     return () => stopRecording();
   }, [stopRecording]);

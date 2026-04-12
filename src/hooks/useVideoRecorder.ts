@@ -27,17 +27,17 @@ const uploadWithRetry = async (blob: Blob, fileName: string, retries = 3): Promi
 };
 
 export const useVideoRecorder = () => {
-  const recorderRef  = useRef<MediaRecorder | null>(null);
-  const chunksRef    = useRef<Blob[]>([]);
-  const timerRef     = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const cleanupRef   = useRef<(() => void) | null>(null);
+  const recorderRef = useRef<MediaRecorder | null>(null);
+  const chunksRef = useRef<Blob[]>([]);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cleanupRef = useRef<(() => void) | null>(null);
 
   const startAutoRecording = useCallback((videoElement: HTMLVideoElement) => {
     if (sessionStorage.getItem('session_recorded')) return;
     if (recorderRef.current?.state === 'recording') return;
     if (typeof MediaRecorder === 'undefined') return;
 
-    // Get the live camera stream from the video element MediaPipe is using
+    // Get the live camera stream from the video element MediaPipe is using.
     const stream = videoElement.srcObject as MediaStream;
     if (!stream || !stream.active) return;
 
@@ -64,7 +64,7 @@ export const useVideoRecorder = () => {
 
       const fileName = `sessions/${Date.now()}.webm`;
       sessionStorage.setItem('session_recorded', 'true');
-      uploadWithRetry(blob, fileName).catch(() => {});
+      uploadWithRetry(blob, fileName).catch(() => { });
     };
 
     const onVisibilityChange = () => {
