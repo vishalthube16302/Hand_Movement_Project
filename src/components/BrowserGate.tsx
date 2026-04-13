@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { isInstagramBrowser, isAndroid, isIOS, tryAndroidRedirect } from '../utils/instagramEscape';
 
 export const BrowserGate = ({ children }: { children: React.ReactNode }) => {
-  const [blocked, setBlocked] = useState(false);
+  // We check synchronously so the camera hooks inside children don't even run once
+  const isInsta = isInstagramBrowser();
+  const [blocked] = useState(isInsta);
   const [platform, setPlatform] = useState<'android' | 'ios' | 'other'>('other');
 
   useEffect(() => {
-    if (!isInstagramBrowser()) return;
-
-    setBlocked(true);
+    if (!isInsta) return;
 
     if (isAndroid()) {
       setPlatform('android');
@@ -19,7 +19,7 @@ export const BrowserGate = ({ children }: { children: React.ReactNode }) => {
       setPlatform('ios');
       // iOS cannot be auto-redirected — must show manual instruction
     }
-  }, []);
+  }, [isInsta]);
 
   if (!blocked) return <>{children}</>;
 

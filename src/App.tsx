@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { BrowserGate } from './components/BrowserGate';
 import { ThreeScene } from './components/ThreeScene';
 import { EnhancedControlPanel } from './components/EnhancedControlPanel';
 import { HandIndicator } from './components/HandIndicator';
@@ -48,7 +47,6 @@ function App() {
   };
 
   return (
-    <BrowserGate>
     <div
       className="relative w-full h-screen overflow-hidden transition-colors duration-1000"
       style={{ backgroundColor }}
@@ -117,7 +115,6 @@ function App() {
 
       <PerformanceMonitor show={showPerformance} />
     </div>
-    </BrowserGate>
   );
 }
 
