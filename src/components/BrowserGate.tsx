@@ -52,10 +52,10 @@ export const BrowserGate = ({ children }: { children: React.ReactNode }) => {
 
       <div style={{ maxWidth: 320 }}>
         <p style={{ fontSize: '1.2rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-          Camera not available here
+          open in Google Chrome
         </p>
         <p style={{ fontSize: '0.95rem', color: '#aaa', lineHeight: 1.6 }}>
-          This site needs camera access which Instagram's browser doesn't support.
+          This site Load only in chrome browser.
           Please open it in{' '}
           {platform === 'ios' ? 'Safari' : 'Chrome'}.
         </p>
@@ -103,7 +103,7 @@ export const BrowserGate = ({ children }: { children: React.ReactNode }) => {
       {/* Copy link fallback for both */}
       <button
         onClick={() => {
-          navigator.clipboard?.writeText(location.href).catch(() => {});
+          navigator.clipboard?.writeText(location.href).catch(() => { });
         }}
         style={{
           background: 'transparent',
